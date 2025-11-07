@@ -27,6 +27,7 @@
 #include "trie-string.h"
 #include "dstring-private.h"
 #include "triedefs.h"
+#include "trie-private.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -56,6 +57,8 @@ trie_char_strdup (const TrieChar *str)
 {
     TrieChar *dup
         = (TrieChar *) malloc (sizeof (TrieChar) * (trie_char_strlen (str) + 1));
+    if (UNLIKELY (!dup))
+        return NULL;
     TrieChar *p = dup;
 
     while (*str != TRIE_CHAR_TERM) {
