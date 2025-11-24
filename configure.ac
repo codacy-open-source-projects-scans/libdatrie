@@ -23,7 +23,7 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-DOXYGEN_REQ_VER=1.9.1
+DOXYGEN_REQ_VER=1.9.8
 
 # Checks for programs.
 AC_PROG_CC
@@ -118,9 +118,13 @@ if test "x$enable_doxygen_doc" = "xyes"; then
   else
     AC_MSG_CHECKING([doxygen >= $DOXYGEN_REQ_VER])
     DOXYGEN_VER=$($DOXYGEN --version)
-    AX_COMPARE_VERSION([$DOXYGEN_VER],[ge],[DOXYGEN_REQ_VER], 
-                       [AC_MSG_RESULT([$DOXYGEN_VER, yes])], 
-                       [AC_MSG_RESULT([$DOXYGEN_VER, no, documentation disabled]); enable_doxygen_doc="no"])
+    AS_VERSION_COMPARE([$DOXYGEN_VER],[$DOXYGEN_REQ_VER],
+                       [enable_doxygen_doc="no"])
+    if test x"$enable_doxygen_doc" = "xyes"; then
+      AC_MSG_RESULT([$DOXYGEN_VER, yes])
+    else
+      AC_MSG_RESULT([$DOXYGEN_VER, no, documentation disabled])
+    fi
   fi
 fi
 
